@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ еды в столовой Университета</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍴 Столовая Университета</h1>
+        <p>Сделайте заказ онлайн, чтобы не стоять в очереди!</p>
+
+        <!-- Блок меню -->
+        <div class="menu">
+            <h2>Меню</h2>
+
+            <div class="category">
+                <h3>Горячее</h3>
+                <div class="item" data-name="Котлета по-киевски" data-price="150">
+                    <span class="item-name">Котлета по-киевски</span>
+                    <span class="item-price">150 ₽</span>
+                    <input type="number" class="item-quantity" value="0" min="0" data-name="Котлета по-киевски" data-price="150">
+                </div>
+                <div class="item" data-name="Пюре картофельное" data-price="60">
+                    <span class="item-name">Пюре картофельное</span>
+                    <span class="item-price">60 ₽</span>
+                    <input type="number" class="item-quantity" value="0" min="0" data-name="Пюре картофельное" data-price="60">
+                </div>
+                <div class="item" data-name="Макароны по-флотски" data-price="90">
+                    <span class="item-name">Макароны по-флотски</span>
+                    <span class="item-price">90 ₽</span>
+                    <input type="number" class="item-quantity" value="0" min="0" data-name="Макароны по-флотски" data-price="90">
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>Напитки</h3>
+                <div class="item" data-name="Компот" data-price="30">
+                    <span class="item-name">Компот</span>
+                    <span class="item-price">30 ₽</span>
+                    <input type="number" class="item-quantity" value="0" min="0" data-name="Компот" data-price="30">
+                </div>
+                <div class="item" data-name="Чай" data-price="25">
+                    <span class="item-name">Чай</span>
+                    <span class="item-price">25 ₽</span>
+                    <input type="number" class="item-quantity" value="0" min="0" data-name="Чай" data-price="25">
+                </div>
+                <div class="item" data-name="Кофе" data-price="80">
+                    <span class="item-name">Кофе</span>
+                    <span class="item-price">80 ₽</span>
+                    <input type="number" class="item-quantity" value="0" min="0" data-name="Кофе" data-price="80">
+                </div>
+            </div>
+             <!-- Добавьте свои категории и блюда по аналогии -->
+        </div>
+
+        <!-- Блок оформления заказа -->
+        <div class="order-form">
+            <h2>Ваш заказ</h2>
+            <div id="cart-items">
+                <p>Корзина пуста</p>
+                <!-- Сюда JavaScript будет добавлять выбранные позиции -->
+            </div>
+            <div id="cart-total">
+                <strong>Итого: <span id="total-price">0</span> ₽</strong>
+            </div>
+
+            <h3>Данные для получения заказа</h3>
+            <input type="text" id="customer-name" placeholder="Ваше имя" required>
+            <input type="tel" id="customer-phone" placeholder="Номер телефона (для связи)" required>
+            <button id="submit-order">Отправить заказ в столовую</button>
+            <div id="order-status"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
