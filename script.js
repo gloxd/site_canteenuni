@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(scriptUrl, {
                 method: 'POST',
-                mode: 'no-cors', // Важно для работы с Google Apps Script без CORS
+                mode: 'no-cors', 
                 headers: {
                     'Content-Type': 'application/json',
                 },
