@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const quantityInputs = document.querySelectorAll('.item-quantity');
     const cartItemsDiv = document.getElementById('cart-items');
     const subtotalPriceSpan = document.getElementById('subtotal-price');
     const totalPriceSpan = document.getElementById('total-price');
@@ -9,26 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const customerPhone = document.getElementById('customer-phone');
     const orderStatus = document.getElementById('order-status');
 
-    // Логика работы кнопок плюс и минус
-    document.querySelectorAll('.qty-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const input = this.parentElement.querySelector('.item-quantity');
-            let currentVal = parseInt(input.value) || 0;
-
-            if (this.classList.contains('plus')) {
-                input.value = currentVal + 1;
-            } else if (this.classList.contains('minus')) {
-                if (currentVal > 0) {
-                    input.value = currentVal - 1;
-                }
-            }
-            // Вызываем обновление корзины
-            updateCartDisplay();
-        });
-    });
-
-    // обновления корзины на экране
+    // Функция перерасчета и обновления отображения корзины
     function updateCartDisplay() {
+        const quantityInputs = document.querySelectorAll('.item-quantity');
         let cartHtml = '';
         let total = 0;
         let hasItems = false;
@@ -38,15 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (quantity > 0) {
                 hasItems = true;
                 const name = input.dataset.name;
-                const price = parseInt(input.dataset.price);
+                const price = parseInt(input.dataset.price) || 0;
                 const itemTotal = price * quantity;
                 total += itemTotal;
 
-                // Добавляем строку в корзину
-                cartHtml += `<div class="cart-item-row">
-                    <span>${name} (x${quantity})</span>
-                    <span>${itemTotal} ₽</span>
-                </div>`;
+                cartHtml += `
+                    <div class="cart-item-row">
+                        <span>${name} (x${quantity})</span>
+                        <strong>${itemTotal} ₽</strong>
+                    </div>`;
             }
         });
 
@@ -56,33 +38,85 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItemsDiv.innerHTML = cartHtml;
         }
         
-        // Обновляем субтотал и итого согласно новому макету
         subtotalPriceSpan.textContent = `${total} ₽`;
         totalPriceSpan.textContent = `${total} ₽`;
     }
 
-    // отправка заказа
+    // 1. ДЕЛЕГИРОВАНИЕ КЛИКОВ: Обработка нажатий на кнопки + и - по всему документу
+    document.body.addEventListener('click', function(event) {
+        if (event.target.classList.contains('qty-btn')) {
+            const container = event.target.closest('.quantity-controls');
+            if (!container) return;
+
+            const input = container.querySelector('.item-quantity');
+            if (!input) return;
+
+            let currentVal = parseInt(input.value) || 0;
+
+            if (event.target.classList.contains('plus')) {
+                input.value = currentVal + 1;
+            } else if (event.target.classList.contains('minus')) {
+                if (currentVal > 0) {
+                    input.value = currentVal - 1;
+                }
+            }
+            
+            // Сразу пересчитываем корзину
+            updateCartDisplay();
+        }
+    });
+
+    // 2. РУЧНОЙ ВВОД: Обработка ввода чисел непосредственно в инпуты руками
+    document.body.addEventListener('input', function(event) {
+        if (event.target.classList.contains('item-quantity')) {
+            let val = parseInt(event.target.value);
+            
+            // Проверка на отрицательные значения или некорректный ввод
+            if (isNaN(val) || val < 0) {
+                event.target.value = 0;
+            } else {
+                event.target.value = val; // Сбрасываем лишние нули впереди (например, 05 превратится в 5)
+            }
+            
+            // Сразу пересчитываем корзину
+            updateCartDisplay();
+        }
+    });
+
+    // Очистка пустых полей при потере фокуса
+    document.body.addEventListener('blur', function(event) {
+        if (event.target.classList.contains('item-quantity')) {
+            if (event.target.value === '') {
+                event.target.value = 0;
+                updateCartDisplay();
+            }
+        }
+    }, true);
+
+    // Функция отправки заказа
     async function submitOrder() {
+        const quantityInputs = document.querySelectorAll('.item-quantity');
         const orderItems = [];
         let total = 0;
+
         quantityInputs.forEach(input => {
             const quantity = parseInt(input.value) || 0;
             if (quantity > 0) {
                 const name = input.dataset.name;
-                const price = parseInt(input.dataset.price);
+                const price = parseInt(input.dataset.price) || 0;
                 orderItems.push({ name: name, quantity: quantity, price: price });
                 total += price * quantity;
             }
         });
 
         if (orderItems.length === 0) {
-            orderStatus.textContent = 'Ошибка: Добавьте блюда в заказ.';
+            orderStatus.textContent = 'Ошибка: Добавьте блюда в корзину.';
             orderStatus.className = 'error';
             return;
         }
 
         if (!customerName.value.trim() || !customerPhone.value.trim()) {
-            orderStatus.textContent = 'Ошибка: Введите имя и номер телефона.';
+            orderStatus.textContent = 'Ошибка: Заполните имя и телефон.';
             orderStatus.className = 'error';
             return;
         }
@@ -95,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
             timestamp: new Date().toLocaleString('ru-RU')
         };
 
+        // Твой URL Google Apps Script остался неизменным
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbz9vpuBJ_LeZcU8KW7VNbIzbwPJHE9ExJNJGlW9GDKLDsOd5vAqQfPbQWH5NfVPJV22/exec'; 
 
         orderStatus.textContent = 'Отправка заказа...';
@@ -110,10 +145,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(orderData)
             });
 
-             orderStatus.textContent = '✅ Заказ успешно отправлен! Скоро он будет готов.';
+             orderStatus.textContent = '✅ Заказ успешно отправлен! Ожидайте выдачи.';
              orderStatus.className = 'success';
 
-             // Очищаем корзину и поля 
+             // Сброс формы после успешного заказа
              quantityInputs.forEach(input => input.value = 0);
              customerName.value = '';
              customerPhone.value = '';
@@ -121,13 +156,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error('Ошибка:', error);
-            orderStatus.textContent = '❌ Ошибка при отправке. Попробуйте еще раз или сообщите администратору.';
+            orderStatus.textContent = '❌ Ошибка сети при отправке. Попробуйте еще раз.';
             orderStatus.className = 'error';
         }
     }
 
     submitButton.addEventListener('click', submitOrder);
 
-    // Первоначальное обновление корзины
+    // Первичный запуск для обнуления интерфейса
     updateCartDisplay();
 });
