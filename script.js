@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Твой URL Google Apps Script остался неизменным
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyUaMv8_U_FN6Pmhpd4zlnXYx7Hn8kbySMrc4axaFxPrJKAMSVslngFO5M3tYnMhr8B/exec'; 
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyWgATlVhoyqRXLcJs-TmohNAboDyRcpbYvEUg3QbO5FRCZcnyPhQscuGU2F7l57O5u/exec'; 
 
         orderStatus.textContent = 'Отправка заказа...';
         orderStatus.className = '';
