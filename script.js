@@ -137,8 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             await fetch(scriptUrl, {
-                method: 'POST',
-                mode: 'no-cors', 
+                method: 'POST',               
                 headers: {
                     'Content-Type': 'application/json',
                 },
