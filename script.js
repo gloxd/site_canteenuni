@@ -8,6 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const customerPhone = document.getElementById('customer-phone');
     const orderStatus = document.getElementById('order-status');
 
+    // ТВОЙ URL ФОРМЫ (с правильным ID)
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeWSCH4DF03dr5KHbK9OHUfQi5D5fbtuejMMl9Rvr9Ri7Ee_A/formResponse';
+    
+    // ID ПОЛЕЙ (найдены через инспектор)
+    const FIELD_IDS = {
+        name: 'entry.1598896576',      // Имя клиента
+        phone: 'entry.967339619',       // Телефон
+        order: 'entry.2085750648',      // Детали заказа
+        total: 'entry.271726782'        // Сумма заказа
+    };
+
     // Функция перерасчета и обновления отображения корзины
     function updateCartDisplay() {
         const quantityInputs = document.querySelectorAll('.item-quantity');
@@ -42,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         totalPriceSpan.textContent = `${total} ₽`;
     }
 
-    // 1. ДЕЛЕГИРОВАНИЕ КЛИКОВ: Обработка нажатий на кнопки + и - по всему документу
+    // Обработка кнопок + и -
     document.body.addEventListener('click', function(event) {
         if (event.target.classList.contains('qty-btn')) {
             const container = event.target.closest('.quantity-controls');
@@ -61,29 +72,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // Сразу пересчитываем корзину
             updateCartDisplay();
         }
     });
 
-    // 2. РУЧНОЙ ВВОД: Обработка ввода чисел непосредственно в инпуты руками
+    // Обработка ручного ввода
     document.body.addEventListener('input', function(event) {
         if (event.target.classList.contains('item-quantity')) {
             let val = parseInt(event.target.value);
             
-            // Проверка на отрицательные значения или некорректный ввод
             if (isNaN(val) || val < 0) {
                 event.target.value = 0;
             } else {
-                event.target.value = val; // Сбрасываем лишние нули впереди (например, 05 превратится в 5)
+                event.target.value = val;
             }
             
-            // Сразу пересчитываем корзину
             updateCartDisplay();
         }
     });
 
-    // Очистка пустых полей при потере фокуса
+    // Очистка пустых полей
     document.body.addEventListener('blur', function(event) {
         if (event.target.classList.contains('item-quantity')) {
             if (event.target.value === '') {
@@ -93,8 +101,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, true);
 
-    // Функция отправки заказа
+    // Функция отправки заказа через Google Forms
     async function submitOrder() {
+        // Собираем данные заказа
         const quantityInputs = document.querySelectorAll('.item-quantity');
         const orderItems = [];
         let total = 0;
@@ -109,59 +118,86 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Валидация
         if (orderItems.length === 0) {
-            orderStatus.textContent = 'Ошибка: Добавьте блюда в корзину.';
+            orderStatus.textContent = '❌ Добавьте блюда в корзину';
             orderStatus.className = 'error';
+            setTimeout(() => {
+                orderStatus.textContent = '';
+                orderStatus.className = '';
+            }, 3000);
             return;
         }
 
         if (!customerName.value.trim() || !customerPhone.value.trim()) {
-            orderStatus.textContent = 'Ошибка: Заполните имя и телефон.';
+            orderStatus.textContent = '❌ Заполните имя и телефон';
             orderStatus.className = 'error';
+            setTimeout(() => {
+                orderStatus.textContent = '';
+                orderStatus.className = '';
+            }, 3000);
             return;
         }
 
-        const orderData = {
-            name: customerName.value.trim(),
-            phone: customerPhone.value.trim(),
-            items: orderItems,
-            total: total,
-            timestamp: new Date().toLocaleString('ru-RU')
-        };
+        // Формируем текст заказа для отправки
+        let orderText = '';
+        orderItems.forEach(item => {
+            orderText += `${item.name} x${item.quantity} = ${item.price * item.quantity}₽\n`;
+        });
 
-        // Твой URL Google Apps Script остался неизменным
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbx59LDJtTGyQ2j7rRFJhk3nEw95erO2pdBWoeev-T3f4AhKrGWRQ4uV7pN1ks0FRodJ/exec'; 
+        // Создаем данные для отправки в форму
+        const formData = new URLSearchParams();
+        formData.append(FIELD_IDS.name, customerName.value.trim());
+        formData.append(FIELD_IDS.phone, customerPhone.value.trim());
+        formData.append(FIELD_IDS.order, orderText.trim());
+        formData.append(FIELD_IDS.total, `${total} ₽`);
 
-        orderStatus.textContent = 'Отправка заказа...';
+        // Показываем статус отправки
+        orderStatus.textContent = '⏳ Отправка заказа...';
         orderStatus.className = '';
 
         try {
-            await fetch(scriptUrl, {
-                method: 'POST',               
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData)
+            // Отправляем данные через fetch (no-cors режим)
+            await fetch(`${GOOGLE_FORM_URL}?${formData.toString()}`, {
+                method: 'GET',
+                mode: 'no-cors'
             });
 
-             orderStatus.textContent = '✅ Заказ успешно отправлен! Ожидайте выдачи.';
-             orderStatus.className = 'success';
+            // При успешной отправке
+            orderStatus.textContent = '✅ Заказ успешно отправлен! Ожидайте выдачи.';
+            orderStatus.className = 'success';
 
-             // Сброс формы после успешного заказа
-             quantityInputs.forEach(input => input.value = 0);
-             customerName.value = '';
-             customerPhone.value = '';
-             updateCartDisplay();
+            // Сбрасываем форму
+            quantityInputs.forEach(input => input.value = 0);
+            customerName.value = '';
+            customerPhone.value = '';
+            updateCartDisplay();
+
+            // Очищаем сообщение через 5 секунд
+            setTimeout(() => {
+                if (orderStatus.textContent === '✅ Заказ успешно отправлен! Ожидайте выдачи.') {
+                    orderStatus.textContent = '';
+                    orderStatus.className = '';
+                }
+            }, 5000);
 
         } catch (error) {
             console.error('Ошибка:', error);
-            orderStatus.textContent = '❌ Ошибка сети при отправке. Попробуйте еще раз.';
+            orderStatus.textContent = '❌ Ошибка при отправке. Попробуйте еще раз.';
             orderStatus.className = 'error';
+            
+            setTimeout(() => {
+                if (orderStatus.textContent === '❌ Ошибка при отправке. Попробуйте еще раз.') {
+                    orderStatus.textContent = '';
+                    orderStatus.className = '';
+                }
+            }, 3000);
         }
     }
 
+    // Добавляем обработчик на кнопку отправки
     submitButton.addEventListener('click', submitOrder);
 
-    // Первичный запуск для обнуления интерфейса
+    // Первичный запуск
     updateCartDisplay();
 });
