@@ -1,25 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
+const GOOGLE_CLIENT_ID = 'ВСТАВЬ_СЮДА_СВОЙ_CLIENT_ID.apps.googleusercontent.com';
 
+let currentUser = { name: '', email: '' };
+
+document.addEventListener('DOMContentLoaded', function() {
     const cartItemsDiv = document.getElementById('cart-items');
-    const subtotalPriceSpan = document.getElementById('subtotal-price');
     const totalPriceSpan = document.getElementById('total-price');
     const submitButton = document.getElementById('submit-order');
     const customerName = document.getElementById('customer-name');
     const customerPhone = document.getElementById('customer-phone');
     const orderStatus = document.getElementById('order-status');
 
-    // ТВОЙ URL ФОРМЫ (с правильным ID)
+    // Настройки интеграции с Google Forms
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeWSCH4DF03dr5KHbK9OHUfQi5D5fbtuejMMl9Rvr9Ri7Ee_A/formResponse';
     
-    // ID ПОЛЕЙ (найдены через инспектор)
     const FIELD_IDS = {
-        name: 'entry.1598896576',      // Имя клиента
-        phone: 'entry.967339619',       // Телефон
-        order: 'entry.2085750648',      // Детали заказа
-        total: 'entry.271726782'        // Сумма заказа
+        name: 'entry.1598896576',      // Поле имени
+        phone: 'entry.967339619',       // Поле телефона
+        order: 'entry.2085750648',      // Поле деталей заказа
+        total: 'entry.271726782'        // Поле суммы
     };
 
-    // Функция перерасчета и обновления отображения корзины
+    // Обновление отображения корзины и пересчет Итого
     function updateCartDisplay() {
         const quantityInputs = document.querySelectorAll('.item-quantity');
         let cartHtml = '';
@@ -31,15 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (quantity > 0) {
                 hasItems = true;
                 const name = input.dataset.name;
-                const price = parseInt(input.dataset.price) || 0;
+                const price = parseInt(input.dataset.price);
                 const itemTotal = price * quantity;
                 total += itemTotal;
 
                 cartHtml += `
                     <div class="cart-item-row">
                         <span>${name} (x${quantity})</span>
-                        <strong>${itemTotal} ₽</strong>
-                    </div>`;
+                        <span>${itemTotal} ₽</span>
+                    </div>
+                `;
             }
         });
 
@@ -49,155 +51,157 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItemsDiv.innerHTML = cartHtml;
         }
         
-        subtotalPriceSpan.textContent = `${total} ₽`;
         totalPriceSpan.textContent = `${total} ₽`;
     }
 
-    // Обработка кнопок + и -
-    document.body.addEventListener('click', function(event) {
-        if (event.target.classList.contains('qty-btn')) {
-            const container = event.target.closest('.quantity-controls');
-            if (!container) return;
+    // Подвязка логики для кнопок плюс/минус в карточках меню
+    document.querySelectorAll('.quantity-controls').forEach(controls => {
+        const input = controls.querySelector('.item-quantity');
+        const minusBtn = controls.querySelector('.qty-btn.minus');
+        const plusBtn = controls.querySelector('.qty-btn.plus');
 
-            const input = container.querySelector('.item-quantity');
-            if (!input) return;
-
-            let currentVal = parseInt(input.value) || 0;
-
-            if (event.target.classList.contains('plus')) {
-                input.value = currentVal + 1;
-            } else if (event.target.classList.contains('minus')) {
-                if (currentVal > 0) {
-                    input.value = currentVal - 1;
-                }
-            }
-            
-            updateCartDisplay();
-        }
-    });
-
-    // Обработка ручного ввода
-    document.body.addEventListener('input', function(event) {
-        if (event.target.classList.contains('item-quantity')) {
-            let val = parseInt(event.target.value);
-            
-            if (isNaN(val) || val < 0) {
-                event.target.value = 0;
-            } else {
-                event.target.value = val;
-            }
-            
-            updateCartDisplay();
-        }
-    });
-
-    // Очистка пустых полей
-    document.body.addEventListener('blur', function(event) {
-        if (event.target.classList.contains('item-quantity')) {
-            if (event.target.value === '') {
-                event.target.value = 0;
+        minusBtn.addEventListener('click', () => {
+            let val = parseInt(input.value) || 0;
+            if (val > 0) {
+                input.value = val - 1;
                 updateCartDisplay();
             }
-        }
-    }, true);
+        });
 
-    // Функция отправки заказа через Google Forms
+        plusBtn.addEventListener('click', () => {
+            let val = parseInt(input.value) || 0;
+            input.value = val + 1;
+            updateCartDisplay();
+        });
+
+        input.addEventListener('change', () => {
+            let val = parseInt(input.value) || 0;
+            if (val < 0) input.value = 0;
+            updateCartDisplay();
+        });
+    });
+
+    // Функция безопасной отправки заказа
     async function submitOrder() {
-        // Собираем данные заказа
+        // Защитная проверка кибербезопасности на уровне фронтенда
+        if (!currentUser.email) {
+            alert('Ошибка безопасности: Вы не авторизованы!');
+            window.location.reload();
+            return;
+        }
+
         const quantityInputs = document.querySelectorAll('.item-quantity');
-        const orderItems = [];
+        let orderItems = [];
         let total = 0;
 
         quantityInputs.forEach(input => {
             const quantity = parseInt(input.value) || 0;
             if (quantity > 0) {
                 const name = input.dataset.name;
-                const price = parseInt(input.dataset.price) || 0;
-                orderItems.push({ name: name, quantity: quantity, price: price });
+                const price = parseInt(input.dataset.price);
+                orderItems.push(`${name} (x${quantity})`);
                 total += price * quantity;
             }
         });
 
-        // Валидация
         if (orderItems.length === 0) {
-            orderStatus.textContent = '❌ Добавьте блюда в корзину';
-            orderStatus.className = 'error';
-            setTimeout(() => {
-                orderStatus.textContent = '';
-                orderStatus.className = '';
-            }, 3000);
+            alert('Пожалуйста, добавьте хотя бы одно блюдо в корзину.');
             return;
         }
 
-        if (!customerName.value.trim() || !customerPhone.value.trim()) {
-            orderStatus.textContent = '❌ Заполните имя и телефон';
-            orderStatus.className = 'error';
-            setTimeout(() => {
-                orderStatus.textContent = '';
-                orderStatus.className = '';
-            }, 3000);
+        const phoneVal = customerPhone.value.trim();
+        if (!phoneVal) {
+            alert('Пожалуйста, укажите контактный телефон для связи.');
             return;
         }
 
-        // Формируем текст заказа для отправки
-        let orderText = '';
-        orderItems.forEach(item => {
-            orderText += `${item.name} x${item.quantity} = ${item.price * item.quantity}₽\n`;
-        });
+        // Кибербез-сборка: объединяем проверенное Google имя и защищенный email
+        const compositeName = `${currentUser.name} (${currentUser.email})`;
 
-        // Создаем данные для отправки в форму
         const formData = new URLSearchParams();
-        formData.append(FIELD_IDS.name, customerName.value.trim());
-        formData.append(FIELD_IDS.phone, customerPhone.value.trim());
-        formData.append(FIELD_IDS.order, orderText.trim());
+        formData.append(FIELD_IDS.name, compositeName);
+        formData.append(FIELD_IDS.phone, phoneVal);
+        formData.append(FIELD_IDS.order, orderItems.join(', '));
         formData.append(FIELD_IDS.total, `${total} ₽`);
 
-        // Показываем статус отправки
-        orderStatus.textContent = '⏳ Отправка заказа...';
+        submitButton.disabled = true;
+        orderStatus.textContent = 'Отправка заказа...';
         orderStatus.className = '';
 
         try {
-            // Отправляем данные через fetch (no-cors режим)
             await fetch(`${GOOGLE_FORM_URL}?${formData.toString()}`, {
                 method: 'GET',
                 mode: 'no-cors'
             });
 
-            // При успешной отправке
             orderStatus.textContent = '✅ Заказ успешно отправлен! Ожидайте выдачи.';
             orderStatus.className = 'success';
 
-            // Сбрасываем форму
+            // Очистка формы
             quantityInputs.forEach(input => input.value = 0);
-            customerName.value = '';
             customerPhone.value = '';
             updateCartDisplay();
 
-            // Очищаем сообщение через 5 секунд
             setTimeout(() => {
-                if (orderStatus.textContent === '✅ Заказ успешно отправлен! Ожидайте выдачи.') {
+                if (orderStatus.textContent.includes('успешно')) {
                     orderStatus.textContent = '';
                     orderStatus.className = '';
                 }
             }, 5000);
 
         } catch (error) {
-            console.error('Ошибка:', error);
-            orderStatus.textContent = '❌ Ошибка при отправке. Попробуйте еще раз.';
+            console.error('Ошибка отправки:', error);
+            orderStatus.textContent = '❌ Ошибка сети при отправке. Попробуйте еще раз.';
             orderStatus.className = 'error';
-            
-            setTimeout(() => {
-                if (orderStatus.textContent === '❌ Ошибка при отправке. Попробуйте еще раз.') {
-                    orderStatus.textContent = '';
-                    orderStatus.className = '';
-                }
-            }, 3000);
+        } finally {
+            submitButton.disabled = false;
         }
     }
 
-    // Добавляем обработчик на кнопку отправки
     submitButton.addEventListener('click', submitOrder);
-
-    // Первичный запуск
     updateCartDisplay();
 });
+
+// Глобальные функции обратного вызова для Google Identity Services
+function handleCredentialResponse(response) {
+    try {
+        // Безопасное декодирование JWT-токена, присланного криптографическими серверами Google
+        const base64Url = response.credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const profile = JSON.parse(jsonPayload);
+
+        // Фиксация пользователя в сессии приложения
+        currentUser.name = profile.name || profile.email;
+        currentUser.email = profile.email;
+
+        // Разблокировка интерфейса
+        document.getElementById('auth-overlay').style.display = 'none';
+
+        // Заполнение инпута имени авторизованными данными
+        const nameInput = document.getElementById('customer-name');
+        if (nameInput) {
+            nameInput.value = currentUser.name;
+        }
+    } catch (e) {
+        console.error('Критическая ошибка авторизации токена:', e);
+        alert('Не удалось верифицировать ваш профиль. Попробуйте снова.');
+    }
+}
+
+// Запуск инициализации окна аутентификации при готовности скрипта Google
+window.onload = function () {
+    if (typeof google !== 'undefined') {
+        google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("google-login-btn"),
+            { theme: "outline", size: "large", text: "signin_with", width: "250" }
+        );
+    }
+};
