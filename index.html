@@ -8,12 +8,12 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+
     <div id="auth-overlay">
-        <div class="auth-card">
-            <div class="auth-icon">🔐</div>
-            <h2>Столовая Университета</h2>
-            <p>Для защиты системы от спама и ложных заказов, пожалуйста, авторизуйтесь через ваш Google-аккаунт.</p>
-            <div id="google-login-btn"></div>
+        <div class="auth-box">
+            <h2>🔐 Вход в систему</h2>
+            <p>Для оформления заказа необходимо авторизоваться через личный или учебный Google-аккаунт</p>
+            <div id="google-btn"></div>
         </div>
     </div>
 
@@ -28,648 +28,106 @@
                 <h2>Меню столовой</h2>
 
                 <section class="category">
-                    <h3>Завтраки и выпечка</h3>
+                    <h3>Горячие блюда и гарниры</h3>
                     <div class="products-grid">
+                        
                         <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Блины" alt="Блины домашние" class="item-img">
+                            <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&q=80" alt="Котлета по-киевски" class="item-img">
                             <div class="item-info">
-                                <span class="item-name">Блины домашние (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">40 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Блины домашние" data-price="40">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Блины+с+джемом" alt="Блины с джемом" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Блины постные с джемом (150/30г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">40 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Блины с джемом" data-price="40">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Блины+с+капустой" alt="Блины с капустой" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Блины постные с капустой (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">55 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Блины с капустой" data-price="55">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Драники" alt="Драники картофельные" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Драники картофельные (150г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">69 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Драники картофельные" data-price="69">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Запеканка" alt="Запеканка творожная" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Запеканка творожная (130г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">74 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Запеканка творожная" data-price="74">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Овсяная+каша" alt="Каша овсяная" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Каша молочная овсяная с маслом (200г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">49 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Каша овсяная" data-price="49">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Омлет" alt="Омлет паровой" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Омлет натуральный паровой (100/5г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">64 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Омлет паровой" data-price="64">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Морковный+рулет" alt="Рулет морковный" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Рулет морковный с курагой (130г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">65 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Рулет морковный" data-price="65">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Сырники" alt="Сырники" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Сырники творожные (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">65 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Сырники творожные" data-price="65">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="category">
-                    <h3>Салаты и закуски</h3>
-                    <div class="products-grid">
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Фрукты" alt="Ассорти фруктовое" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Ассорти фруктовое (стакан, 200г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">115 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Ассорти фруктовое" data-price="115">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Куриный+рулет" alt="Рулет куриный" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Рулет куриный с овощами (130г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">118 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Рулет куриный с овощами" data-price="118">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Винегрет" alt="Винегрет" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Винегрет с кв. капустой и з. горошком</span>
-                                <div class="item-actions">
-                                    <span class="item-price">47 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Винегрет" data-price="47">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Салат+Коктейль" alt="Салат Коктейль" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат "Коктейль" овощной (130г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">80 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Салат Коктейль" data-price="80">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Салат+Маскарад" alt="Салат Маскарад" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат "Маскарад" с кр. палочками/ветчиной</span>
-                                <div class="item-actions">
-                                    <span class="item-price">81 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Салат Маскарад" data-price="81">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Сельдь+под+шубой" alt="Сельдь под шубой" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат "Сельдь под шубой" (130г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">78 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Сельдь под шубой" data-price="78">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Салат+Фреш" alt="Салат Фреш" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат "Фреш" с бужениной (150/30г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">92 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Салат Фреш с бужениной" data-price="92">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Салат+с+сельдереем" alt="Салат из капусты" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат из св. капусты с сельдереем (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">41 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Салат из капусты с сельдереем" data-price="41">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Салат+из+свеклы" alt="Салат из свеклы" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат из свеклы с конс. огурцом (100/20/5г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">52 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Салат из свеклы" data-price="52">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Салат+из+тыквы" alt="Салат из тыквы" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Салат из тыквы/яблок/сметаны (135г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">42 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Салат из тыквы и яблок" data-price="42">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="category">
-                    <h3>Первые блюда</h3>
-                    <div class="products-grid">
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Суп+куриный" alt="Суп куриный" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Суп куриный с мак. изд. (250г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">71 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Суп куриный" data-price="71">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Суп-пюре" alt="Суп-пюре" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Суп-пюре сырный с гренками (250/10г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">79 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Суп-пюре сырный" data-price="79">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Щи" alt="Щи" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Щи постные по-Уральски (250/10г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">75 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Щи по-Уральски" data-price="75">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="category">
-                    <h3>Вторые блюда</h3>
-                    <div class="products-grid">
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Биточки" alt="Биточки" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Биточки по-селянски (75/30г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">131 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Биточки по-селянски" data-price="131">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Запеканка+из+печени" alt="Запеканка из печени" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Запеканка из печени с рисом (130г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">95 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Запеканка из печени" data-price="95">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Котлета" alt="Котлета куриная" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Котлета куриная Пожарская (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">115 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Котлета Пожарская" data-price="115">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Манты" alt="Манты" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Манты с мясом и картофелем (300/15г)</span>
+                                <span class="item-name">Котлета по-киевски</span>
                                 <div class="item-actions">
                                     <span class="item-price">150 ₽</span>
                                     <div class="quantity-controls">
                                         <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Манты с мясом" data-price="150">
+                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Котлета по-киевски" data-price="150">
                                         <button class="qty-btn plus" type="button">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Окорочка" alt="Окорочка" class="item-img">
+                            <img src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=400&q=80" alt="Пюре картофельное" class="item-img">
                             <div class="item-info">
-                                <span class="item-name">Окорочка фаршированные грибами (150г)</span>
+                                <span class="item-name">Пюре картофельное</span>
                                 <div class="item-actions">
-                                    <span class="item-price">173 ₽</span>
+                                    <span class="item-price">60 ₽</span>
                                     <div class="quantity-controls">
                                         <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Окорочка с грибами" data-price="173">
+                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Пюре картофельное" data-price="60">
                                         <button class="qty-btn plus" type="button">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Пельмени" alt="Пельмени" class="item-img">
+                            <img src="https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=400&q=80" alt="Макароны отварные" class="item-img">
                             <div class="item-info">
-                                <span class="item-name">Пельмени мясные (200г)</span>
+                                <span class="item-name">Макароны отварные</span>
                                 <div class="item-actions">
-                                    <span class="item-price">144 ₽</span>
+                                    <span class="item-price">50 ₽</span>
                                     <div class="quantity-controls">
                                         <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Пельмени мясные" data-price="144">
+                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Макароны отварные" data-price="50">
                                         <button class="qty-btn plus" type="button">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Сарделька" alt="Сарделька" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Сарделька отварная (за 100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">97 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Сарделька отварная" data-price="97">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Свинина" alt="Свинина в панировке" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Свинина в белой панировке (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">139 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Свинина в панировке" data-price="139">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Филе+куры" alt="Филе куры" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Филе куры в белой панировке (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">119 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Филе куры в панировке" data-price="119">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Филе+в+сыре" alt="Филе в сыре" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Филе куры в сырной корочке (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">132 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Филе куры в сырной корочке" data-price="132">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Филе+по-французски" alt="Филе по-французски" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Филе куры по-французски с грибами (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">132 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Филе куры по-французски" data-price="132">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Фрикадельки" alt="Фрикадельки" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Фрикадельки мясные в соусе (75/30г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">105 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Фрикадельки в соусе" data-price="105">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Шницель" alt="Шницель" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Шницель "Полесский" (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">105 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Шницель Полесский" data-price="105">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Эскалоп" alt="Эскалоп" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Эскалоп из свинины (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">147 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Эскалоп из свинины" data-price="147">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Камбала" alt="Камбала" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Камбала жареная (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">106 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Камбала жареная" data-price="106">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Рыбные+колбаски" alt="Колбаски рыбные" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Колбаски рыбные жареные (100г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">129 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Колбаски рыбные" data-price="129">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Горбуша" alt="Филе горбуши" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Филе горбуши с польским соусом (75/30г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">139 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Филе горбуши" data-price="139">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Зажарка" alt="Зажарка" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">"Зажарка" овощная с куриной мякотью (150/80г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">198 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Зажарка овощная с курицей" data-price="198">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </section>
 
                 <section class="category">
-                    <h3>Гарниры</h3>
+                    <h3>Напитки</h3>
                     <div class="products-grid">
+                        
                         <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Гречневая+лапша" alt="Гречневая лапша" class="item-img">
+                            <img src="https://images.unsplash.com/photo-1556881286-fc6915169721?w=400&q=80" alt="Компот" class="item-img">
                             <div class="item-info">
-                                <span class="item-name">Гречневая лапша с овощами (150г)</span>
+                                <span class="item-name">Компот ягодный</span>
                                 <div class="item-actions">
-                                    <span class="item-price">82 ₽</span>
+                                    <span class="item-price">30 ₽</span>
                                     <div class="quantity-controls">
                                         <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Гречневая лапша" data-price="82">
+                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Компот ягодный" data-price="30">
                                         <button class="qty-btn plus" type="button">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Пюре" alt="Пюре" class="item-img">
+                            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80" alt="Чай" class="item-img">
                             <div class="item-info">
-                                <span class="item-name">Пюре картофельное (150г)</span>
+                                <span class="item-name">Чай в ассортименте</span>
                                 <div class="item-actions">
-                                    <span class="item-price">55 ₽</span>
+                                    <span class="item-price">25 ₽</span>
                                     <div class="quantity-controls">
                                         <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Пюре картофельное" data-price="55">
+                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Чай" data-price="25">
                                         <button class="qty-btn plus" type="button">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Рис" alt="Рис" class="item-img">
+                            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80" alt="Кофе" class="item-img">
                             <div class="item-info">
-                                <span class="item-name">Рис отварной (150г)</span>
+                                <span class="item-name">Кофе зерновой</span>
                                 <div class="item-actions">
-                                    <span class="item-price">45 ₽</span>
+                                    <span class="item-price">80 ₽</span>
                                     <div class="quantity-controls">
                                         <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Рис отварной" data-price="45">
+                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Кофе" data-price="80">
                                         <button class="qty-btn plus" type="button">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="item-card">
-                            <img src="https://via.placeholder.com/280x150?text=Капуста" alt="Цветная капуста" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Цв. капуста с фасолью/морковью (150г)</span>
-                                <div class="item-actions">
-                                    <span class="item-price">74 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Цветная капуста с овощами" data-price="74">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </section>
             </main>
@@ -681,17 +139,18 @@
                         <p class="empty-text">Корзина пуста</p>
                     </div>
                     <div class="cart-summary">
+                        <div class="summary-row"><span>Субтотал:</span><span id="subtotal-price">0 ₽</span></div>
                         <div class="summary-row total"><span>Итого:</span><span id="total-price">0 ₽</span></div>
                     </div>
                 </div>
 
                 <div class="sticky-panel order-box">
                     <h3>Данные для получения</h3>
-                    <label for="customer-name">Имя (из Google-профиля)</label>
-                    <input type="text" id="customer-name" placeholder="Авторизуйтесь, чтобы заполнить" required readonly>
+                    <label for="customer-name">Имя (заполнится автоматически)</label>
+                    <input type="text" id="customer-name" placeholder="Авторизуйтесь во всплывающем окне" required readonly>
                     
                     <label for="customer-phone">Телефон</label>
-                    <input type="tel" id="customer-phone" placeholder="Номер телефона" required>
+                    <input type="tel" id="customer-phone" placeholder="+7 (999) 999-99-99" required>
                     
                     <button id="submit-order">Отправить заказ в столовую</button>
                     <div id="order-status"></div>
