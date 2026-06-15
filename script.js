@@ -1,4 +1,4 @@
-const GOOGLE_CLIENT_ID = 'ВСТАВЬ_СЮДА_СВОЙ_CLIENT_ID.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '721070299233-d7jimru41hrc0ghs1nn6p38d4p3jjogn.apps.googleusercontent.com';
 
 let currentUser = { name: '', email: '' };
 
