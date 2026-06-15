@@ -5,8 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заказ еды в столовой Университета</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-icon">🔐</div>
+            <h2>Столовая Университета</h2>
+            <p>Для защиты системы от спама и ложных заказов, пожалуйста, авторизуйтесь через ваш Google-аккаунт.</p>
+            <div id="google-login-btn"></div>
+        </div>
+    </div>
+
     <div class="container">
         <header class="main-header">
             <h1>🍴 Столовая Университета</h1>
@@ -671,15 +681,14 @@
                         <p class="empty-text">Корзина пуста</p>
                     </div>
                     <div class="cart-summary">
-                        <div class="summary-row"><span>Субтотал:</span><span id="subtotal-price">0 ₽</span></div>
                         <div class="summary-row total"><span>Итого:</span><span id="total-price">0 ₽</span></div>
                     </div>
                 </div>
 
                 <div class="sticky-panel order-box">
                     <h3>Данные для получения</h3>
-                    <label for="customer-name">Имя</label>
-                    <input type="text" id="customer-name" placeholder="Ваше имя" required>
+                    <label for="customer-name">Имя (из Google-профиля)</label>
+                    <input type="text" id="customer-name" placeholder="Авторизуйтесь, чтобы заполнить" required readonly>
                     
                     <label for="customer-phone">Телефон</label>
                     <input type="tel" id="customer-phone" placeholder="Номер телефона" required>
