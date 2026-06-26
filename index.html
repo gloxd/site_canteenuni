@@ -29,171 +29,37 @@
 
                 <section class="category">
                     <h3>Доступные блюда</h3>
-                    <div class="products-grid">
-                        
-                        <div class="item-card">
-                            <img src="images/assorti_fruktovoe.jpg" alt="Ассорти фруктовое" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Ассорти фруктовое</span>
-                                <div class="item-actions">
-                                    <span class="item-price">120 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Ассорти фруктовое" data-price="120">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="menu-container" class="products-grid"></div>
+                </section>
+            </main>
 
-                        <div class="item-card">
-                            <img src="images/bitochki_poselyanski.jpg" alt="Биточки по-селянски" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Биточки по-селянски</span>
-                                <div class="item-actions">
-                                    <span class="item-price">160 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Биточки по-селянски" data-price="160">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <aside class="sidebar">
+                <div class="sticky-panel cart-box">
+                    <h2>Ваш заказ</h2>
+                    <div id="cart-items">
+                        <p class="empty-text">Корзина пуста</p>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-row" style="display: none;"><span>Субтотал:</span><span id=\"subtotal-price\">0 ₽</span></div>
+                        <div class="summary-row total"><span>Итого:</span><span id="total-price">0 ₽</span></div>
+                    </div>
+                </div>
 
-                        <div class="item-card">
-                            <img src="images/blini_postnie_s_dzhemom.jpg" alt="Блины постные с джемом" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Блины постные с джемом</span>
-                                <div class="item-actions">
-                                    <span class="item-price">60 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Блины постные с джемом" data-price="60">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="sticky-panel order-box">
+                    <h3>Данные для получения</h3>
+                    <label for="customer-name">Имя (заполнится автоматически)</label>
+                    <input type="text" id="customer-name" placeholder="Авторизуйтесь во всплывающем окне" required readonly>
+                    
+                    <label for="customer-phone">Телефон</label>
+                    <input type="tel" id="customer-phone" placeholder="+7 (999) 999-99-99" required>
+                    
+                    <button id="submit-order">Отправить заказ в столовую</button>
+                    <div id="order-status"></div>
+                </div>
+            </aside>
+        </div>
+    </div>
 
-                        <div class="item-card">
-                            <img src="images/blini.jpg" alt="Блины домашние" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Блины домашние</span>
-                                <div class="item-actions">
-                                    <span class="item-price">40 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Блины домашние" data-price="40">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/blini_s_kapustoy.jpg" alt="Блины с капустой" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Блины с капустой</span>
-                                <div class="item-actions">
-                                    <span class="item-price">70 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Блины с капустой" data-price="70">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/vinegret.jpg" alt="Винегрет" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Винегрет</span>
-                                <div class="item-actions">
-                                    <span class="item-price">50 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Винегрет" data-price="50">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/grechnevaya_lapsha.jpg" alt="Гречневая лапша" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Гречневая лапша</span>
-                                <div class="item-actions">
-                                    <span class="item-price">90 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Гречневая лапша" data-price="90">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/draniki_kartofelnie.jpg" alt="Драники картофельные" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Драники картофельные</span>
-                                <div class="item-actions">
-                                    <span class="item-price">80 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Драники картофельные" data-price="80">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/zapekanka_iz_pecheni.jpg" alt="Запеканка из печени" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Запеканка из печени</span>
-                                <div class="item-actions">
-                                    <span class="item-price">110 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Запеканка из печени" data-price="110">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/zapekanka_tvorozhnaya.jpg" alt="Запеканка творожная" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Запеканка творожная</span>
-                                <div class="item-actions">
-                                    <span class="item-price">100 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Запеканка творожная" data-price="100">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-card">
-                            <img src="images/kambala.jpg" alt="Камбала запеченная" class="item-img">
-                            <div class="item-info">
-                                <span class="item-name">Камбала запеченная</span>
-                                <div class="item-actions">
-                                    <span class="item-price">180 ₽</span>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn minus" type="button">—</button>
-                                        <input type="number" class="item-quantity" value="0" min="0" data-name="Камбала запеченная" data-price="180">
-                                        <button class="qty-btn plus" type="button">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
+    <script src="script.js"></script>
+</body>
+</html>
