@@ -22,53 +22,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // Твой Client ID авторизации Google
     const CLIENT_ID = "721070299233-d7jimru41hrc0ghs1nn6p38d4p3jjogn.apps.googleusercontent.com";
 
-    // --- БАЗА ДАННЫХ МЕНЮ (Все ваши переименованные блюда) ---
-    const MENU_ITEMS = [
-        { name: "Ассорти фруктовое", price: 120, image: "images/assorti_fruktovoe.jpg" },
-        { name: "Биточки по-селянски", price: 160, image: "images/bitochki_poselyanski.jpg" },
-        { name: "Блины постные с джемом", price: 60, image: "images/blini_postnie_s_dzhemom.jpg" },
-        { name: "Блины", price: 40, image: "images/blini.jpg" },
-        { name: "Блины с капустой", price: 70, image: "images/blini_s_kapustoy.jpg" },
-        { name: "Винегрет", price: 50, image: "images/vinegret.jpg" },
-        { name: "Гречневая лапша", price: 90, image: "images/grechnevaya_lapsha.jpg" },
-        { name: "Драники картофельные", price: 80, image: "images/draniki_kartofelnie.jpg" },
-        { name: "Запеканка из печени", price: 110, image: "images/zapekanka_iz_pecheni.jpg" },
-        { name: "Запеканка творожная", price: 100, image: "images/zapekanka_tvorozhnaya.jpg" },
-        { name: "Камбала запеченная", price: 180, image: "images/kambala.jpg" },
-        { name: "Каша с маслом", price: 45, image: "images/kasha_s_maslom.jpg" },
-        { name: "Колбаски рыбные", price: 140, image: "images/kolbaski_rybnye.jpg" },
-        { name: "Кура по-французски", price: 170, image: "images/kura_po_francuzski.jpg" },
-        { name: "Курица с овощами", price: 150, image: "images/kurica_s_ovoshami.jpg" },
-        { name: "Манты", price: 160, image: "images/manty.jpg" },
-        { name: "Салат Маскарад", price: 75, image: "images/maskarad.jpg" },
-        { name: "Окорочка фаршированные", price: 190, image: "images/okorochka_farshirovannye.jpg" },
-        { name: "Омлет паровой", price: 65, image: "images/omlet_parovoy.jpg" },
-        { name: "Пельмени", price: 130, image: "images/pelmeni.jpg" },
-        { name: "Котлеты Пожарские", price: 120, image: "images/kotleti_pozharskie.jpg" },
-        { name: "Картофельное пюре", price: 50, image: "images/pyure.jpg" },
-        { name: "Рис отварной", price: 45, image: "images/ris.jpg" },
-        { name: "Рулет куриный", price: 140, image: "images/rulet_kuriny.jpg" },
-        { name: "Рулет морковный с курагой", price: 95, image: "images/rulet_morkovny_s_kuragoy.jpg" },
-        { name: "Салат-коктейль", price: 85, image: "images/salat_kokteyl.jpg" },
-        { name: "Салат из свежей капусты", price: 45, image: "images/salat_iz_svezhey_kapusty.jpg" },
-        { name: "Салат из тыквы", price: 55, image: "images/salat_iz_tykvy.jpg" },
-        { name: "Сарделька отварная", price: 90, image: "images/sardelka.jpg" },
-        { name: "Салат из свеклы", price: 45, image: "images/salat_iz_svekly.jpg" },
-        { name: "Свинина запеченная", price: 210, image: "images/svinina.jpg" },
-        { name: "Сельдь под шубой", price: 90, image: "images/seld_pod_shuboy.jpg" },
-        { name: "Суп куриный", price: 80, image: "images/sup_kuriny.jpg" },
-        { name: "Суп сырный", price: 95, image: "images/sup_syrny.jpg" },
-        { name: "Сырники творожные", price: 110, image: "images/syrniki_tvorozhnye.jpg" },
-        { name: "Филе мясное", price: 160, image: "images/file.jpg" },
-        { name: "Филе горбуши", price: 190, image: "images/file_gorbushi.jpg" },
-        { name: "Филе куры в сырной корочке", price: 165, image: "images/file_kurinoe_v_syrnoy.jpg" },
-        { name: "Фреш-ролл с бужениной", price: 135, image: "images/fresh_s_buzheninoy.jpg" },
-        { name: "Фрикадельки", price: 115, image: "images/frikadelki.jpg" },
-        { name: "Цветная капуста с фасолью", price: 85, image: "images/cvetnaya_kapusta_s_fasolyu.jpg" },
-        { name: "Шницель Полесский", price: 145, image: "images/shnicel_polesskiy.jpg" },
-        { name: "Щи по-уральски", price: 80, image: "images/shi_po_uralski.jpg" },
-        { name: "Эскалоп", price: 175, image: "images/eskalop.jpg" }
-    ];
+// --- БАЗА ДАННЫХ МЕНЮ (Сгруппировано по категориям согласно фото меню) ---
+const MENU_ITEMS = [
+    // --- ЗАВТРАКИ / ВЫПЕЧКА ---
+    { name: "Блины домашние", price: 40, category: "breakfast", image: "images/blini.jpg" },
+    { name: "Блины постные с джемом", price: 40, category: "breakfast", image: "images/blini_postnie_s_dzhemom.jpg" },
+    { name: "Блины с капустой", price: 55, category: "breakfast", image: "images/blini_s_kapustoy.jpg" },
+    { name: "Драники картофельные", price: 69, category: "breakfast", image: "images/draniki_kartofelnie.jpg" },
+    { name: "Запеканка творожная", price: 74, category: "breakfast", image: "images/zapekanka_tvorozhnaya.jpg" },
+    { name: "Каша молочная овсяная с маслом", price: 49, category: "breakfast", image: "images/kasha_s_maslom.jpg" },
+    { name: "Омлет натуральный паровой", price: 64, category: "breakfast", image: "images/omlet_parovoy.jpg" },
+    { name: "Рулет морковный с курагой", price: 65, category: "breakfast", image: "images/rulet_morkovny_s_kuragoy.jpg" },
+    { name: "Сырники творожные", price: 65, category: "breakfast", image: "images/syrniki_tvorozhnye.jpg" },
+
+    // --- ЗАКУСКИ ---
+    { name: "Ассорти фруктовое (стакан)", price: 115, category: "appetizers", image: "images/assorti_fruktovoe.jpg" },
+    { name: "Рулет куриный с овощами", price: 118, category: "appetizers", image: "images/rulet_kuriny.jpg" },
+
+    // --- САЛАТЫ ---
+    { name: "Винегрет с кв.капустой и з.горошком", price: 47, category: "salads", image: "images/vinegret.jpg" },
+    { name: "Салат \"Коктейль\" овощной", price: 80, category: "salads", image: "images/salat_kokteyl.jpg" },
+    { name: "Салат \"Маскарад\" с кр/палочками/ветчиной", price: 81, category: "salads", image: "images/maskarad.jpg" },
+    { name: "Салат \"Сельдь под шубой\"", price: 78, category: "salads", image: "images/seld_pod_shuboy.jpg" },
+    { name: "Салат \"Фреш\" с бужениной", price: 92, category: "salads", image: "images/fresh_s_buzheninoy.jpg" },
+    { name: "Салат из св.капусты с сельдереем", price: 41, category: "salads", image: "images/salat_iz_svezhey_kapusty.jpg" },
+    { name: "Салат из свеклы с конс.огурцом", price: 52, category: "salads", image: "images/salat_iz_svekly.jpg" },
+    { name: "Салат из тыквы/яблок/сметаны", price: 42, category: "salads", image: "images/salat_iz_tykvy.jpg" },
+
+    // --- ПЕРВЫЕ БЛЮДА ---
+    { name: "Суп куриный с мак.изделиями", price: 71, category: "soups", image: "images/sup_kuriny.jpg" },
+    { name: "Суп-пюре сырный с гренками", price: 79, category: "soups", image: "images/sup_syrny.jpg" },
+    { name: "Щи постные по-Уральски", price: 75, category: "soups", image: "images/shi_po_uralski.jpg" },
+
+    // --- РЫБНЫЕ БЛЮДА ---
+    { name: "Камбала жареная", price: 106, category: "fish", image: "images/kambala.jpg" },
+    { name: "Колбаски рыбные жареные", price: 129, category: "fish", image: "images/kolbaski_rybnye.jpg" },
+    { name: "Филе горбуши с польским соусом", price: 139, category: "fish", image: "images/file_gorbushi.jpg" },
+
+    // --- МЯСНЫЕ БЛЮДА ---
+    { name: "\"Зажарка\" овощная с куриной мякотью", price: 198, category: "meat", image: "images/kurica_s_ovoshami.jpg" },
+    { name: "Биточки по-селянски", price: 131, category: "meat", image: "images/bitochki_poselyanski.jpg" },
+    { name: "Запеканка из печени с рисом", price: 95, category: "meat", image: "images/zapekanka_iz_pecheni.jpg" },
+    { name: "Котлета куриная Пожарская", price: 115, category: "meat", image: "images/kotleti_pozharskie.jpg" },
+    { name: "Манты с мясом и картофелем", price: 150, category: "meat", image: "images/manty.jpg" },
+    { name: "Окорочка фаршированные грибами", price: 173, category: "meat", image: "images/okorochka_farshirovannye.jpg" },
+    { name: "Пельмени мясные", price: 144, category: "meat", image: "images/pelmeni.jpg" },
+    { name: "Сарделька отварная", price: 97, category: "meat", image: "images/sardelka.jpg" },
+    { name: "Свинина в белой панировке", price: 139, category: "meat", image: "images/svinina.jpg" },
+    { name: "Филе куры в белой панировке", price: 119, category: "meat", image: "images/file.jpg" },
+    { name: "Филе куры в сырной корочке", price: 132, category: "meat", image: "images/file_kurinoe_v_syrnoy.jpg" },
+    { name: "Филе куры по-французски с грибами", price: 132, category: "meat", image: "images/kura_po_francuzski.jpg" },
+    { name: "Фрикадельки мясные в соусе", price: 105, category: "meat", image: "images/frikadelki.jpg" },
+    { name: "Шницель \"Полесский\"", price: 105, category: "meat", image: "images/shnicel_polesskiy.jpg" },
+    { name: "Эскалоп из свинины", price: 147, category: "meat", image: "images/eskalop.jpg" },
+
+    // --- ГАРНИРЫ ---
+    { name: "Гречневая лапша с овощами", price: 82, category: "sides", image: "images/grechnevaya_lapsha.jpg" },
+    { name: "Пюре картофельное", price: 55, category: "sides", image: "images/pyure.jpg" },
+    { name: "Рис отварной", price: 45, category: "sides", image: "images/ris.jpg" },
+    { name: "Цв/капуста с фасолью/морковью", price: 74, category: "sides", image: "images/cvetnaya_kapusta_s_fasolyu.jpg" }
+];
 
     // --- ФУНКЦИЯ ДИНАМИЧЕСКОЙ ОТРИСОВКИ КАРТОЧЕК ---
     function renderMenu() {
