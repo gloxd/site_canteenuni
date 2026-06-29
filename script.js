@@ -84,37 +84,104 @@ const MENU_ITEMS = [
 ];
 
     // --- ФУНКЦИЯ ДИНАМИЧЕСКОЙ ОТРИСОВКИ КАРТОЧЕК ---
-    function renderMenu() {
-        const menuContainer = document.getElementById('menu-container');
-        if (!menuContainer) return;
+    // --- СЛОВАРЬ КАТЕГОРИЙ ДЛЯ ОТОБРАЖЕНИЯ НА РУССКОМ ---
+const CATEGORY_TITLES = {
+    breakfast: "🥞 Завтраки / Выпечка",
+    appetizers: "🥗 Закуски",
+    salads: "🥗 Салаты",
+    soups: "🥣 Первые блюда",
+    fish: "🐟 Рыбные блюда",
+    meat: "🥩 Мясные блюда",
+    sides: "🍚 Гарниры"
+};
 
-        menuContainer.innerHTML = ''; // Очищаем от старой разметки
+// --- ФУНКЦИЯ ОТРИСОВКИ МЕНЮ ПО КАТЕГОРИЯМ ---
+function renderMenu() {
+    const menuContainer = document.getElementById('menu-container');
+    if (!menuContainer) return;
+    
+    menuContainer.innerHTML = ''; // Очищаем контейнер
 
-        MENU_ITEMS.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
+    // Группируем элементы меню по категориям
+    const groupedMenu = {};
+    MENU_ITEMS.forEach(item => {
+        if (!groupedMenu[item.category]) {
+            groupedMenu[item.category] = [];
+        }
+        groupedMenu[item.category].push(item);
+    });
 
-            card.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" class="item-img" onerror="this.src='images/placeholder.jpg'">
-                <div class="item-info">
-                    <span class="item-name">${item.name}</span>
-                    <div class="item-actions">
-                        <span class="item-price">${item.price} ₽</span>
-                        <div class="quantity-controls">
-                            <button class="qty-btn minus" type="button">—</button>
-                            <input type="number" class="item-quantity" value="0" min="0" data-name="${item.name}" data-price="${item.price}">
-                            <button class="qty-btn plus" type="button">+</button>
-                        </div>
+    // Перебираем категории в нужном нам порядке
+    const categoryOrder = ['breakfast', 'appetizers', 'salads', 'soups', 'fish', 'meat', 'sides'];
+
+    categoryOrder.forEach(categoryKey => {
+        const items = groupedMenu[categoryKey];
+        if (!items || items.length === 0) return; // Если в категории нет блюд, пропускаем
+
+        // Создаем блок для категории
+        const categorySection = document.createElement('div');
+        categorySection.className = 'category-section';
+        categorySection.style.gridColumn = "1 / -1"; // Чтобы заголовок растягивался на всю ширину сетки
+        categorySection.style.marginTop = "30px";
+
+        // Создаем красивый заголовок категории
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.textContent = CATEGORY_TITLES[categoryKey] || categoryKey;
+        categoryTitle.style.borderBottom = "2px solid var(--primary-color)";
+        categoryTitle.style.paddingBottom = "8px";
+        categoryTitle.style.marginBottom = "20px";
+        categoryTitle.style.color = "var(--text-main)";
+        categorySection.appendChild(categoryTitle);
+
+        menuContainer.appendChild(categorySection);
+
+        // Отрисовываем блюда этой категории
+        items.forEach(item => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+
+            productCard.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/300x200?text=%D0%9D%D0%B5%D1%82+%D1%84%D0%BE%D1%82%D0%BE'">
+                <div class="product-info">
+                    <h4 class="product-title">${item.name}</h4>
+                    <p class="product-price">${item.price} ₽</p>
+                    <div class="quantity-controls">
+                        <button class="qty-btn minus" data-name="${item.name}">-</button>
+                        <input type="number" class="qty-input" data-name="${item.name}" value="0" min="0" readonly>
+                        <button class="qty-btn plus" data-name="${item.name}">+</button>
                     </div>
                 </div>
             `;
-            menuContainer.appendChild(card);
+            menuContainer.appendChild(productCard);
         });
+    });
 
-        // Навешиваем события на новые сгенерированные кнопки
-        setupQuantityControls();
-    }
+    // Навешиваем обработчики событий на новые кнопки управления количеством
+    setupQuantityControls();
+}
 
+// Вынесем логику кнопок плюс/минус в отдельную функцию, чтобы вызывать её после перерисовки
+function setupQuantityControls() {
+    document.querySelectorAll('.qty-btn.plus').forEach(button => {
+        button.addEventListener('click', function() {
+            const name = this.getAttribute('data-name');
+            const input = document.querySelector(`.qty-input[data-name="${name}"]`);
+            input.value = parseInt(input.value) + 1;
+            updateCartDisplay();
+        });
+    });
+
+    document.querySelectorAll('.qty-btn.minus').forEach(button => {
+        button.addEventListener('click', function() {
+            const name = this.getAttribute('data-name');
+            const input = document.querySelector(`.qty-input[data-name="${name}"]`);
+            if (parseInt(input.value) > 0) {
+                input.value = parseInt(input.value) - 1;
+                updateCartDisplay();
+            }
+        });
+    });
+}
     // Выделенная функция для привязки событий клика кнопкам Плюс/Минус
     function setupQuantityControls() {
         document.querySelectorAll('.quantity-controls').forEach(control => {
