@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const customerPhone = document.getElementById('customer-phone');
     const orderStatus = document.getElementById('order-status');
 
-    // ТВОЙ URL ГУГЛ ФОРМЫ
+  
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeWSCH4DF03dr5KHbK9OHUfQi5D5fbtuejMMl9Rvr9Ri7Ee_A/formResponse';
     
     // ID ПОЛЕЙ В ФОРМЕ
