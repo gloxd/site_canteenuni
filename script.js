@@ -272,6 +272,7 @@ function setupQuantityControls() {
 
     // Расчет корзины
     function updateCartDisplay() {
+        const quantityInputs = document.querySelectorAll('.qty-input');
         const quantityInputs = document.querySelectorAll('.item-quantity');
         let cartHtml = '';
         let total = 0;
@@ -354,7 +355,7 @@ function setupQuantityControls() {
             orderStatus.className = 'success';
 
             // Очищаем количество у товаров в меню
-            quantityInputs.forEach(input => input.value = 0);
+            document.querySelectorAll('.qty-input').forEach(input => input.value = 0);
             customerPhone.value = ''; // Телефон стираем для нового заказа
             updateCartDisplay(); // Сбрасываем внешний вид корзины
 
