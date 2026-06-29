@@ -19,18 +19,14 @@
 
     <div class="container">
         <header class="main-header">
-            <h1>🍴 Университетская столовая "Факультет"</h1>
+            <h1>🍴 Факультет</h1>
             <p>Заказывайте онлайн без очередей и забирайте готовый поднос!</p>
         </header>
 
         <div class="content-wrapper">
-            <main class="menu-section">
+            <main class="menu-section" id="menu-section">
                 <h2>Меню столовой</h2>
-
-                <section class="category">
-                    <h3>Доступные блюда</h3>
-                    <div id="menu-container" class="products-grid"></div>
-                </section>
+                <!-- Категории блюд генерируются динамически через script.js -->
             </main>
 
             <aside class="sidebar">
@@ -40,7 +36,6 @@
                         <p class="empty-text">Корзина пуста</p>
                     </div>
                     <div class="cart-summary">
-                        <div class="summary-row" style="display: none;"><span>Субтотал:</span><span id=\"subtotal-price\">0 ₽</span></div>
                         <div class="summary-row total"><span>Итого:</span><span id="total-price">0 ₽</span></div>
                     </div>
                 </div>
