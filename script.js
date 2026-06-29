@@ -1,25 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const cartItemsDiv = document.getElementById('cart-items');
-    const subtotalPriceSpan = document.getElementById('subtotal-price');
     const totalPriceSpan = document.getElementById('total-price');
     const submitButton = document.getElementById('submit-order');
     const customerName = document.getElementById('customer-name');
     const customerPhone = document.getElementById('customer-phone');
     const orderStatus = document.getElementById('order-status');
 
-    // ТВОЙ URL ГУГЛ ФОРМЫ
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeWSCH4DF03dr5KHbK9OHUfQi5D5fbtuejMMl9Rvr9Ri7Ee_A/formResponse';
-    
-    // ID ПОЛЕЙ В ФОРМЕ
     const FIELD_IDS = {
         name: 'entry.1598896576',
         phone: 'entry.967339619',
         order: 'entry.2085750648',
         total: 'entry.271726782'
     };
-
-    // Твой Client ID авторизации Google
     const CLIENT_ID = "721070299233-d7jimru41hrc0ghs1nn6p38d4p3jjogn.apps.googleusercontent.com";
 
     // --- МЕНЮ ПО КАТЕГОРИЯМ (цены из актуального меню) ---
@@ -77,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name: "Мясные блюда",
             items: [
-                { name: "«Зажарка» овощная с куриной мякотью", price: 198, image: "images/kurica_s_ovoshami.jpg" },
+                { name: "Зажарка овощная с куриной мякотью", price: 198, image: "images/kurica_s_ovoshami.jpg" },
                 { name: "Биточки по-селянски", price: 131, image: "images/bitochki_poselyanski.jpg" },
                 { name: "Запеканка из печени с рисом", price: 95, image: "images/zapekanka_iz_pecheni.jpg" },
                 { name: "Котлета куриная Пожарская", price: 115, image: "images/kotleti_pozharskie.jpg" },
@@ -90,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { name: "Филе куры в сырной корочке", price: 132, image: "images/file_kurinoe_v_syrnoy.jpg" },
                 { name: "Филе куры по-французски с грибами", price: 132, image: "images/kura_po_francuzski.jpg" },
                 { name: "Фрикадельки мясные в соусе", price: 105, image: "images/frikadelki.jpg" },
-                { name: "Шницель «Полесский»", price: 105, image: "images/shnicel_polesskiy.jpg" },
+                { name: "Шницель Полесский", price: 105, image: "images/shnicel_polesskiy.jpg" },
                 { name: "Эскалоп из свинины", price: 147, image: "images/eskalop.jpg" }
             ]
         },
@@ -105,13 +99,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
 
-    // --- ФУНКЦИЯ ДИНАМИЧЕСКОЙ ОТРИСОВКИ КАРТОЧЕК ПО КАТЕГОРИЯМ ---
+    // --- ОТРИСОВКА МЕНЮ ПО КАТЕГОРИЯМ ---
     function renderMenu() {
-        const menuSection = document.querySelector('.menu-section');
+        const menuSection = document.getElementById('menu-section');
         if (!menuSection) return;
 
-        // Удаляем старые секции категорий (кроме заголовка h2)
-        menuSection.querySelectorAll('.category').forEach(el => el.remove());
+        // Удаляем всё кроме заголовка h2
+        Array.from(menuSection.children).forEach(child => {
+            if (child.tagName !== 'H2') child.remove();
+        });
 
         MENU_CATEGORIES.forEach(category => {
             const section = document.createElement('section');
@@ -151,7 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupQuantityControls();
     }
 
-    // Привязка событий к кнопкам Плюс/Минус
     function setupQuantityControls() {
         document.querySelectorAll('.quantity-controls').forEach(control => {
             const minusBtn = control.querySelector('.minus');
@@ -160,24 +155,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (minusBtn && plusBtn && input) {
                 minusBtn.addEventListener('click', () => {
-                    let currentVal = parseInt(input.value) || 0;
-                    if (currentVal > 0) {
-                        input.value = currentVal - 1;
-                        updateCartDisplay();
-                    }
+                    let v = parseInt(input.value) || 0;
+                    if (v > 0) { input.value = v - 1; updateCartDisplay(); }
                 });
-
                 plusBtn.addEventListener('click', () => {
-                    let currentVal = parseInt(input.value) || 0;
-                    input.value = currentVal + 1;
+                    input.value = (parseInt(input.value) || 0) + 1;
                     updateCartDisplay();
                 });
-
                 input.addEventListener('input', () => {
-                    let currentVal = parseInt(input.value);
-                    if (isNaN(currentVal) || currentVal < 0) {
-                        input.value = 0;
-                    }
+                    if (isNaN(parseInt(input.value)) || parseInt(input.value) < 0) input.value = 0;
                     updateCartDisplay();
                 });
             }
@@ -187,98 +173,66 @@ document.addEventListener('DOMContentLoaded', function() {
     renderMenu();
 
 
-    // --- ЛОГИКА Google Авторизации ---
-
+    // --- Google Авторизация ---
     function handleCredentialResponse(response) {
-        const responsePayload = parseJwt(response.credential);
-        console.log("Пользователь успешно вошел:", responsePayload);
-
-        if (customerName) {
-            customerName.value = `${responsePayload.name} (${responsePayload.email})`;
-        }
-
+        const payload = parseJwt(response.credential);
+        if (customerName) customerName.value = `${payload.name} (${payload.email})`;
         const overlay = document.getElementById('auth-overlay');
-        if (overlay) {
-            overlay.style.display = 'none';
-        }
+        if (overlay) overlay.style.display = 'none';
     }
 
     function parseJwt(token) {
-        var base64Url = token.split('.')[1];
-        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        return JSON.parse(jsonPayload);
+        const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(decodeURIComponent(window.atob(base64).split('').map(c =>
+            '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join('')));
     }
 
     function initGoogleAuth() {
         if (typeof google !== 'undefined' && google.accounts) {
-            google.accounts.id.initialize({
-                client_id: CLIENT_ID,
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("google-btn"),
-                { theme: "outline", size: "large", width: 280 }
-            );
+            google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
+            google.accounts.id.renderButton(document.getElementById("google-btn"), { theme: "outline", size: "large", width: 280 });
         } else {
             setTimeout(initGoogleAuth, 100);
         }
     }
-
     initGoogleAuth();
 
 
-    // --- ЛОГИКА РАБОТЫ КОРЗИНЫ ---
-
+    // --- Корзина ---
     function updateCartDisplay() {
-        const quantityInputs = document.querySelectorAll('.item-quantity');
+        const inputs = document.querySelectorAll('.item-quantity');
         let cartHtml = '';
         let total = 0;
         let hasItems = false;
 
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value) || 0;
-            if (quantity > 0) {
+        inputs.forEach(input => {
+            const qty = parseInt(input.value) || 0;
+            if (qty > 0) {
                 hasItems = true;
-                const name = input.dataset.name;
                 const price = parseInt(input.dataset.price) || 0;
-                const itemTotal = price * quantity;
+                const itemTotal = price * qty;
                 total += itemTotal;
-
-                cartHtml += `
-                    <div class="cart-item-row">
-                        <span>${name} (x${quantity})</span>
-                        <span>${itemTotal} ₽</span>
-                    </div>`;
+                cartHtml += `<div class="cart-item-row"><span>${input.dataset.name} (x${qty})</span><span>${itemTotal} ₽</span></div>`;
             }
         });
 
-        if (!hasItems) {
-            cartItemsDiv.innerHTML = '<p class="empty-text">Корзина пуста</p>';
-        } else {
-            cartItemsDiv.innerHTML = cartHtml;
-        }
-
-        if (subtotalPriceSpan) subtotalPriceSpan.textContent = `${total} ₽`;
+        cartItemsDiv.innerHTML = hasItems ? cartHtml : '<p class="empty-text">Корзина пуста</p>';
         totalPriceSpan.textContent = `${total} ₽`;
     }
 
 
-    // --- ОТПРАВКА ЗАКАЗА В GOOGLE ТАБЛИЦУ ---
-
+    // --- Отправка заказа ---
     async function submitOrder() {
-        const quantityInputs = document.querySelectorAll('.item-quantity');
+        const inputs = document.querySelectorAll('.item-quantity');
         let orderItems = [];
         let total = 0;
 
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value) || 0;
-            if (quantity > 0) {
-                const name = input.dataset.name;
-                orderItems.push(`${name} (x${quantity})`);
-                total += (parseInt(input.dataset.price) || 0) * quantity;
+        inputs.forEach(input => {
+            const qty = parseInt(input.value) || 0;
+            if (qty > 0) {
+                orderItems.push(`${input.dataset.name} (x${qty})`);
+                total += (parseInt(input.dataset.price) || 0) * qty;
             }
         });
 
@@ -287,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
             orderStatus.className = 'error';
             return;
         }
-
         if (!customerName.value.trim() || !customerPhone.value.trim()) {
             orderStatus.textContent = '⚠️ Заполните все поля (пройдите авторизацию и укажите телефон)!';
             orderStatus.className = 'error';
@@ -304,15 +257,12 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append(FIELD_IDS.total, `${total} ₽`);
 
         try {
-            await fetch(`${GOOGLE_FORM_URL}?${formData.toString()}`, {
-                method: 'GET',
-                mode: 'no-cors'
-            });
+            await fetch(`${GOOGLE_FORM_URL}?${formData.toString()}`, { method: 'GET', mode: 'no-cors' });
 
             orderStatus.textContent = '✅ Заказ успешно отправлен! Ожидайте выдачи.';
             orderStatus.className = 'success';
 
-            quantityInputs.forEach(input => input.value = 0);
+            inputs.forEach(input => input.value = 0);
             customerPhone.value = '';
             updateCartDisplay();
 
